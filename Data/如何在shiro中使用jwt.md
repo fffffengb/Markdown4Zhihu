@@ -22,7 +22,7 @@
 
    它是匿名内部类, 在org.apache.shiro.spring.web 包下的ShiroFilterFactoryBean中, 我们发送的每一个请求都会先由它处理.
 
-   ![SpringShiroFilter](SpringShiroFilter.png)
+   ![SpringShiroFilter](如何在shiro中使用jwt/SpringShiroFilter.png)
 
    API文档的描述是:
 
@@ -88,7 +88,7 @@
 
 4. 现在进入getExecutionChain这个方法, 先拿到了过滤器链的解析器, 可以看到里面装着shiro默认的所有过滤器和我们配置的过滤器链.
 
-   ![resolver](reslover.png)
+   ![resolver](如何在shiro中使用jwt/reslover.png)
 
 5. 在一个循环中, 用当前请求路径和所有我们配置的过滤器链进行匹配, 匹配成功后就返回相应的过滤器链, 详细代码在org.apache.shiro.web.filter.mgt包下的PathMatchingFilterChainResolver类中的FilterChain getChain(ServletRequest request, ServletResponse response, FilterChain originalChain)方法, 这里就不多说匹配的过程了.**但注意, 匹配完成后, 返回的过滤器链是被org.apache.shiro.web.servlet包下的ProxiedFilterChain这个类包装过的.这个类对servlet原生的FilterChain做了代理, 会让请求先经过shiro的过滤器链, 再经过tomecat servlet的过滤器链.**
 
@@ -104,7 +104,7 @@
 
 7. 现在先看一下AnonymousFilter的继承关系图.
 
-   ![AnonymousFilter](AnonymousFilter.png)
+   ![AnonymousFilter](如何在shiro中使用jwt/AnonymousFilter.png)
 
 8. 单步调试进入了ProxiedFilterChain类中的doFilter方法, 这个方法调用的就是AnonymousFilter父类OncePerRequestFilter的doFilter方法.  这个类保证了每个请求只会被当前的过滤器处理一次, 包括入口ShiroFilter类.
 
@@ -173,7 +173,7 @@
 
 4. 对照看一下FormAuthenticationFilter的继承关系图.
 
-   ![](FormAuthenticationFilter.png)
+   ![](如何在shiro中使用jwt/FormAuthenticationFilter.png)
 
 5. 那么自然而然, PathMatchingFilter下面的四个类, 就是处理身份认证的关键.
 
